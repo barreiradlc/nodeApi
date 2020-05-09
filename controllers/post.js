@@ -1,6 +1,7 @@
 const Post = require('../models/post')
 
 exports.getPosts = (req, res) => {
+    console.log('bateu')
     // res.json({
     //     posts: [
     //         {title: 'Jao'},
