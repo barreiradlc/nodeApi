@@ -12,6 +12,10 @@ dotenv.config()
 const postsRoute = require('./routes/post')
 const authRoute = require('./routes/auth')
 
+app.get('/', function (req, res) {
+    return res.send(JSON.stringify({ Hello: "World"}))
+});
+
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser:true,
     useUnifiedTopology: true

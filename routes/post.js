@@ -4,7 +4,7 @@ const validator = require('../helpers/validator')
 
 const router =  express.Router()
 
-router.get("/", getPosts)
+router.get("/posts", getPosts)
 router.post("/post", validator.createPostValidator, createPost)
 
 module.exports = router
