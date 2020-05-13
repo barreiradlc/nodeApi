@@ -1,4 +1,7 @@
 const Post = require('../models/post')
+const formidable = require('formidable')
+const fs = require('fs')
+
 
 exports.getPosts = (req, res) => {
     console.log('bateu')
@@ -21,19 +24,32 @@ exports.getPosts = (req, res) => {
 
 
 exports.createPost = (req, res) => {
-    console.log('CREATE')
-    const post = new Post(req.body)
-    console.log('CREATE', post)
-    // post.save((err, result) => {
-    //     res.status(200).json({
-    //         post: result
-    //     })
-    // })
-    post.save().then(result => {
-        res.status(200).json({
-            post: result
+
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true
+
+    form.parse(req, fields, files, () => {
+        if(err){
+            res.status(400).json({
+                erro: "Houve um erro inesperado"
+            })
+        }
+        let post = new Post(fields)
+        post.postedBy = req.profile
+        if(files.photo) {
+            post.photo.data = fs.readFileSync(files.photo.path)
+            post.photo.contenType =  files.photo.type
+        }
+        post.save(( err, result ) => {
+            if(err){
+                return res.status(400).json({
+                    erro: "Houve um erro inesperado"
+                })
+            }
+            res.json(result)
         })
     })
+
 }
 
 

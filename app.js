@@ -9,6 +9,7 @@ const expressValidator = require('express-validator')
 
 dotenv.config()
 
+const userRoute = require('./routes/user')
 const postsRoute = require('./routes/post')
 const authRoute = require('./routes/auth')
 
@@ -42,7 +43,12 @@ app.use(morgan(myOwnMiddleware))
 
 app.use('/', postsRoute)
 app.use('/', authRoute)
-
+app.use('/', userRoute)
+app.use(function (err, req, res, next) {
+    if(err.name === "UnauthorizedError") {
+    res.status(401).json(({erro: 'token inváilido  ou inexistente'}))
+}
+})
 const port = ('8080')
 
 
