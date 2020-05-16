@@ -1,0 +1,108 @@
+{
+    "rotas": {
+        "/":"Rota raiz de documentação da API",
+        "auth":{
+            "/signup":{
+                "descrição":"Cadastro de usuário",
+                "método": "POST",
+                "parametros":"Requer parametros do Modelo de User por meio do body",
+                "autenticação":"Não requer autenticação"
+            },
+            "/signin":{
+                "descrição":"Autenticação usuário",
+                "método": "POST",
+                "parametros":"Requer parametros do Modelo de User por meio do body",
+                "autenticação":"Não requer autenticação"
+            },
+            "/signout":{
+                "descrição":"Logout de usuário",
+                "método": "POST",
+                "parametros":"Não requer parâmetros",
+                "autenticação":"Requer autenticação"
+            }
+        },
+        "users":{
+            "/users":{
+                "descrição":"List de TODOS os usuários",
+                "método": "GET",
+                "parametros":"Não requer parâmetros",
+                "autenticação":"Não requer autenticação"
+            },
+            "/users/:userId":{
+                "descrição":"Detalhamento de usuário",
+                "método": "GET",
+                "parametros":"Requer o Id do usuário por meio da URL",
+                "autenticação":"Requer autenticação"
+            },
+            "/users/edit/:userId":{
+                "descrição":"Edição de usuário",
+                "método": "PUT",
+                "parametros":"Requer o Id do usuário por meio da URL",
+                "autenticação":"Requer autenticação"
+            },
+            "/users/delete/:userId":{
+                "descrição":"Remoção de usuário",
+                "método": "DELETE",
+                "parametros":"Requer o Id do usuário por meio da URL",
+                "autenticação":"Requer autenticação"
+            }
+        },
+        "posts": {
+            "/posts":{
+                "descrição":"Rota raiz para busca de todos os Posts",
+                "método": "GET",
+                "parametros":"Não requer / aceira parâmetros",
+                "autenticação":"Não requer autenticação"
+            },
+            "/post/new/:userId":{
+                "descrição":"Rota para criação de Posts",
+                "método":"POST",
+                "parâmetros":"id do usuário por meio da URL e parametros do modelo de Post por meio do body",
+                "autenticação":"Requer autenticação"
+            },
+            "/post/by/:userId":{
+                "descrição":"Rota para busca Posts por Usuário",
+                "método":"POST",
+                "parâmetros":"id do usuário por meio da URL",
+                "autenticação":"Requer autenticação"
+            },
+            "/post/:postId":{
+                "descrição":"Edição de post",
+                "método":"PUT",
+                "parâmetros":"id do Post por meio da URL",
+                "autenticação":"Requer autenticação"
+            },
+            "/post/:postId":{
+                "descrição":"Remoção de post",
+                "método":"DELETE",
+                "parâmetros":"id do Post por meio da URL",
+                "autenticação":"Requer autenticação"
+            }
+            
+    
+        }
+    },
+    "modelos": {
+        "User":{
+            "name":"string",
+            "email":"string",
+            "hashed_password":"string",
+            "created":"date",
+            "updated":"date"
+        },
+        "Post":{
+            "title": "string",
+            "body":"string",
+            "photo":"buffer",
+            "postedBy":"refs modelo User",
+            "created":"date",
+            "updated":"date"
+        }
+    },
+    "autoria":{
+        "Nome":"Augusto Barreira",
+        "Email":"barreira266@hotmail.com",
+        "Github":"https://github.com/barreiradlc",
+        "Linkedin":"https://www.linkedin.com/in/augusto-barreira-5b7362118/"
+    }
+}

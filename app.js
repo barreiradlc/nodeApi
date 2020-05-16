@@ -6,6 +6,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
+const cors = require('cors')
+const fs = require('fs')
 
 dotenv.config()
 
@@ -13,41 +15,52 @@ const userRoute = require('./routes/user')
 const postsRoute = require('./routes/post')
 const authRoute = require('./routes/auth')
 
-app.get('/', function (req, res) {
-    return res.send(JSON.stringify({ Hello: "World"}))
-});
 
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser:true,
     useUnifiedTopology: true
 })
-    .then((
-        console.log('-- DB connectado --')
+.then((
+    console.log('-- DB connectado --')
     ))
-
-mongoose.connection.on('error', err => {
-    console.log('ERRO ao conectar', err.message)
-})
-
-
-const myOwnMiddleware = ( req, res, next ) => {
-    console.log('middlaware')
-    // next()
-}
-
-app.use(morgan('dev'))
-app.use(bodyParser.json())
-app.use(cookieParser())
-app.use(expressValidator())
+    
+    mongoose.connection.on('error', err => {
+        console.log('ERRO ao conectar', err.message)
+    })
+    
+    
+    const myOwnMiddleware = ( req, res, next ) => {
+        console.log('middlaware')
+        // next()
+    }
+    
+    
+    app.use(morgan('dev'))
+    app.use(bodyParser.json())
+    app.use(cookieParser())
+    app.use(cors())
+    app.use(expressValidator())
 app.use(morgan(myOwnMiddleware))
+
 
 app.use('/', postsRoute)
 app.use('/', authRoute)
 app.use('/', userRoute)
+app.use('/', (req, res) => {
+    fs.readFile('docs/apiDoc.json', (err, data) => {
+        console.log('alou')
+        if(err){
+            return res.status(400).json({
+                erro: err
+            })
+        }
+        res.json(JSON.parse(data))
+    })
+})
 app.use(function (err, req, res, next) {
     if(err.name === "UnauthorizedError") {
-    res.status(401).json(({erro: 'token inváilido  ou inexistente'}))
-}
+        res.status(401).json(({erro: 'token inváilido  ou inexistente'}))
+    }
 })
 const port = ('8080')
 

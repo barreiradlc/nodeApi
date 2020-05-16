@@ -46,9 +46,10 @@ exports.signin = ( req, res, next) => {
 
 exports.signout = (req, res) => {
     res.clearCookie('t')
-    return  res.json({message: "Usuário delogado com sucesso"})
+    return res.json({message: "Usuário delogado com sucesso"})
 }
 
 exports.requireJwt = expressJwt({
-    secret: process.env.JWT
+    secret: process.env.JWT,
+    userProperty: 'auth'
 })

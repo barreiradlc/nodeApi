@@ -8,8 +8,8 @@ const router =  express.Router()
 
 router.get("/users", allUsers)
 router.get("/users/:userId", requireJwt, getUser)
-router.put("/users/:userId", requireJwt, updateUser)
-router.delete("/users/:userId", requireJwt, deleteUser)
+router.put("/users/edit/:userId", requireJwt, updateUser)
+router.delete("/users/delete/:userId", requireJwt, deleteUser)
 
 
 router.param("userId", userById)
