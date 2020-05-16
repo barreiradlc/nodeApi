@@ -29,18 +29,14 @@ mongoose.connect(process.env.MONGO_URI, {
     })
     
     
-    const myOwnMiddleware = ( req, res, next ) => {
-        console.log('middlaware')
-        // next()
-    }
     
     
-    app.use(morgan('dev'))
-    app.use(bodyParser.json())
-    app.use(cookieParser())
-    app.use(cors())
-    app.use(expressValidator())
-app.use(morgan(myOwnMiddleware))
+// app.use(morgan('dev'))
+app.use(bodyParser.json())
+app.use(cookieParser())
+app.use(cors())
+app.use(expressValidator())
+// app.use(morgan(myOwnMiddleware))
 
 
 app.use('/', postsRoute)
