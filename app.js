@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser:true,
     useUnifiedTopology: true
 })
+
 .then((
     console.log('-- DB connectado --')
     ))
@@ -31,7 +32,7 @@ mongoose.connect(process.env.MONGO_URI, {
     
     
     
-// app.use(morgan('dev'))
+app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors())
@@ -42,6 +43,7 @@ app.use(expressValidator())
 app.use('/', postsRoute)
 app.use('/', authRoute)
 app.use('/', userRoute)
+
 app.use('/', (req, res) => {
     fs.readFile('docs/apiDoc.json', (err, data) => {
         console.log('alou 1')
@@ -55,14 +57,16 @@ app.use('/', (req, res) => {
         console.log('alou 3')
     })
 })
+
 app.use(function (err, req, res, next) {
     if(err.name === "UnauthorizedError") {
         res.status(401).json(({erro: 'token inváilido  ou inexistente'}))
     }
 })
+
 const port = ('8080')
 
 
 app.listen(port, () => {
     console.log('alou')
-} )
+})
