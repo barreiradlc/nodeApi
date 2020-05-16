@@ -48,13 +48,15 @@ app.use('/', authRoute)
 app.use('/', userRoute)
 app.use('/', (req, res) => {
     fs.readFile('docs/apiDoc.json', (err, data) => {
-        console.log('alou')
+        console.log('alou 1')
         if(err){
             return res.status(400).json({
                 erro: err
             })
         }
+        console.log('alou 2')
         res.json(JSON.parse(data))
+        console.log('alou 3')
     })
 })
 app.use(function (err, req, res, next) {
