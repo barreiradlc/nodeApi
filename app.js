@@ -19,22 +19,23 @@ mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser:true,
     useUnifiedTopology: true
 })
-
 .then((
     console.log('-- DB connectado --')
-    ))
-    
+    ))    
     mongoose.connection.on('error', err => {
         console.log('ERRO ao conectar', err.message)
     })
     
-// app.use(morgan('dev'))
-app.use(bodyParser.json())
-app.use(cookieParser())
-app.use(cors())
-app.use(expressValidator())
-// app.use(morgan(myOwnMiddleware))
-
+    // app.use(morgan('dev'))
+    app.use(bodyParser.json())
+    app.use(cookieParser())
+    app.use(cors())
+    app.use(expressValidator())
+    // app.use(morgan(myOwnMiddleware))
+app.use('/', postsRoute)
+app.use('/', authRoute)
+app.use('/', userRoute)
+    
 app.use('/', (req, res) => {
     fs.readFile('docs/apiDoc.json', (err, data) => {
         console.log('alou 1')
@@ -49,9 +50,6 @@ app.use('/', (req, res) => {
     })
 })
 
-app.use('/', postsRoute)
-app.use('/', authRoute)
-app.use('/', userRoute)
 
 
 app.use(function (err, req, res, next) {
