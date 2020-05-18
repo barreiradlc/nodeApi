@@ -1,1 +1,1 @@
-web: yarn start
+node app.js
