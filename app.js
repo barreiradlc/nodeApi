@@ -60,7 +60,7 @@ app.use(function (err, req, res, next) {
     }
 })
 
-const port = ('3000')
+const port = (process.env.PORT)
 
 app.listen(port, () => {
     console.log('alou')
