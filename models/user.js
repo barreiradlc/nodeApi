@@ -4,7 +4,6 @@ const crypto = require('crypto')
 
 // const uuidv1 = require('uuid/v1')
 
-
 const UserSchema = new Schema({
     name:{
         type: String,
