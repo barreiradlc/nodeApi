@@ -1,7 +1,7 @@
-const _ = require('lodash')
 const Post = require('../models/post')
 const formidable = require('formidable')
 const fs = require('fs')
+const _ = require('lodash')
 
 exports.postById = ( req, res, next, id ) => {
   Post.findById(id) 

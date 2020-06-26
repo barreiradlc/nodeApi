@@ -27,6 +27,10 @@ const UserSchema = new Schema({
     updated: {
         type: Date,
         default: Date.now
+    },
+    photo: {
+        data: Buffer,
+        contentType: String
     }
 })
 

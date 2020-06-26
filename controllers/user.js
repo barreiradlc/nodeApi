@@ -1,5 +1,7 @@
-const _ = require('lodash')
 const User = require('../models/user')
+const formidable = require('formidable')
+const fs = require('fs')
+const _ = require('lodash')
 
 exports.userById = (req, res, next, id) => {
 
@@ -46,20 +48,55 @@ exports.getUser = (req, res) => {
 
 
 
+// exports.updateUser = (req, res, next) => {
+//     let user = req.profile
+//     user = _.extend(user, req.body)
+//     user.updated = Date.now()
+//     user.save((err) => {
+//         if(err) {
+//             return res.status(400).json({
+//                 erro: 'Não é autorizado a fazer isso'
+//             })
+//         }
+//         req.profile.hashed_password = undefined
+//         req.profile.salt = undefined
+//         res.json({user})
+//     })
+// }
 exports.updateUser = (req, res, next) => {
+ let form = new formidable.IncomingForm()
+ form.keepExtensions = true
+ form.parse(req, (err, fields, files) => {
+     if(err){
+         return res.status(400).json({
+             erro: "Houve um erro no upload da imagem"
+         })
+     }
+
+    //  save user
     let user = req.profile
-    user = _.extend(user, req.body)
+    user = _.extend(user, fields)
     user.updated = Date.now()
-    user.save((err) => {
-        if(err) {
+
+    if(files.photo){
+        user.photo.data = fs.readFileSync(files.photos.path)
+        user.photo.contentType = files.photos.path
+    }
+
+    user.save((err, result) => {
+        if(err){
             return res.status(400).json({
-                erro: 'Não é autorizado a fazer isso'
+                erro: err
             })
         }
-        req.profile.hashed_password = undefined
-        req.profile.salt = undefined
-        res.json({user})
+
+        user.hashed_password = undefined
+        user.salt = undefined
+        res.json(user)
     })
+})
+
+
 }
 
 exports.deleteUser = ( req, res, next ) => {
